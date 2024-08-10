@@ -16,9 +16,8 @@ services:
   backend:
     build: .
     container_name: grahql-backend
-    environment:
-      MYSQL_HOST: db
-      MYSQL_DATABASE: "mysql_template"
+    env_file:
+      - .env
     volumes:
       - ../:/go/src/
     depends_on:
