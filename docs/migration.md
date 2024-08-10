@@ -1,7 +1,7 @@
 # データベース更新方法(goose を利用)
-> [!CAUTION]
-> からなず[.env.local](../build/.env.local)ファイル名を.envファイル名に変更すること
 
+> [!CAUTION]
+> からなず[.env.local](../build/.env.local)ファイル名を.env ファイル名に変更すること
 
 ## migration ファイルの生成
 
@@ -12,10 +12,12 @@ root$ goose create ./add_table_worker sql
 ```
 
 > [!TIP]
+>
 > ### 命名規則
-> - migration の名前は[操作]_[粒度]_[テーブル名]  
-> - 操作　= add(追加) delete(削除) edit(編集)  
-> - 粒度 = table(テーブル) column(カラム)  
+>
+> - migration の名前は[操作]_[粒度]_[テーブル名]
+> - 操作　= add(追加) delete(削除) edit(編集)
+> - 粒度 = table(テーブル) column(カラム)
 > - テーブル名
 
 ## migration の中身を記載
