@@ -1,4 +1,7 @@
 # データベース更新方法(goose を利用)
+> [!CAUTION]
+> からなず[.env.local](../build/.env.local)ファイル名を.envファイル名に変更すること
+
 
 ## migration ファイルの生成
 
