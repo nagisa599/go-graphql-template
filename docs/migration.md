@@ -9,7 +9,11 @@ root$ goose create ./add_table_worker sql
 ```
 
 > [!TIP]
-> migration の名前は[add or edit _ delete]
+> ### 命名規則
+> - migration の名前は[操作]_[粒度]_[テーブル名]  
+> - 操作　= add(追加) delete(削除) edit(編集)  
+> - 粒度 = table(テーブル) column(カラム)  
+> - テーブル名
 
 ## migration の中身を記載
 
