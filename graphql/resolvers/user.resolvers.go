@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 
+	graphql1 "github.com/nagisa599/go-graphql-template/graphql"
 	graphql_model "github.com/nagisa599/go-graphql-template/graphql/model"
 )
 
@@ -20,3 +21,13 @@ func (r *mutationResolver) CreateUser(ctx context.Context, name string, email st
 func (r *queryResolver) GetAllUsers(ctx context.Context) ([]*graphql_model.User, error) {
 	panic(fmt.Errorf("not implemented: GetAllUsers - getAllUsers"))
 }
+
+// Todos is the resolver for the todos field.
+func (r *userResolver) Todos(ctx context.Context, obj *graphql_model.User) ([]*graphql_model.Todo, error) {
+	panic(fmt.Errorf("not implemented: Todos - todos"))
+}
+
+// User returns graphql1.UserResolver implementation.
+func (r *Resolver) User() graphql1.UserResolver { return &userResolver{r} }
+
+type userResolver struct{ *Resolver }
