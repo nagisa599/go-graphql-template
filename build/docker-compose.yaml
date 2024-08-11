@@ -18,6 +18,7 @@ services:
     container_name: grahql-backend
     env_file:
       - .env
+    command: sh -c "sh ./build/init.sh"
     volumes:
       - ../:/go/src/
     depends_on:
