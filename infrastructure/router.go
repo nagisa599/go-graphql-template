@@ -12,6 +12,7 @@ import (
 	"github.com/nagisa599/go-graphql-template/graphql"
 	"github.com/nagisa599/go-graphql-template/graphql/resolvers"
 	"github.com/nagisa599/go-graphql-template/internal/handler"
+	"github.com/nagisa599/go-graphql-template/internal/usecase"
 	"github.com/rs/cors"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 	"gorm.io/gorm"
@@ -26,7 +27,7 @@ func Router() {
 	databaseHandler := NewDatabaseHandler()
     
 
-	userHandler := handler.NewUserHandler()
+	userHandler := handler.NewUserHandler(usecase.NewUserUsecase())
 	srv := graphql_handler.NewDefaultServer(
 		graphql.NewExecutableSchema(
 			graphql.Config{
