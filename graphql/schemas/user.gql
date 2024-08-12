@@ -5,11 +5,24 @@ type User {
   password: String!
   todos: [Todo!]!
 }
+enum StatusResult {
+  SUCCESS
+  FAILURE
+}
+type ResponseStatus {
+  status: StatusResult!
+}
+
+input NewUser {
+  name: String!
+  email: String!
+  password: String!
+}
 
 extend type Query {
   getAllUsers: [User!]!
 }
 
 extend type Mutation {
-  createUser(name: String!, email: String!, password: String!): User!
+  createUser(input: NewUser!): ResponseStatus!
 }

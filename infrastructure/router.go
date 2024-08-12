@@ -11,6 +11,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/nagisa599/go-graphql-template/graphql"
 	"github.com/nagisa599/go-graphql-template/graphql/resolvers"
+	"github.com/nagisa599/go-graphql-template/internal/handler"
 	"github.com/rs/cors"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 	"gorm.io/gorm"
@@ -23,11 +24,13 @@ func Router() {
 	}
 
 	databaseHandler := NewDatabaseHandler()
+    
 
+	userHandler := handler.NewUserHandler()
 	srv := graphql_handler.NewDefaultServer(
 		graphql.NewExecutableSchema(
 			graphql.Config{
-				Resolvers: resolvers.NewResolver(),
+				Resolvers: resolvers.NewResolver(*userHandler),
 			},
 		),
 	)

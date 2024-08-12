@@ -13,8 +13,12 @@ import (
 )
 
 // CreateUser is the resolver for the createUser field.
-func (r *mutationResolver) CreateUser(ctx context.Context, name string, email string, password string) (*graphql_model.User, error) {
-	panic(fmt.Errorf("not implemented: CreateUser - createUser"))
+func (r *mutationResolver) CreateUser(ctx context.Context, input graphql_model.NewUser) (*graphql_model.ResponseStatus, error) {
+	response, err := r.UserHandler.CreateUser(ctx, input)
+	if err != nil {
+		return nil, err
+	}
+	return response, nil
 }
 
 // GetAllUsers is the resolver for the getAllUsers field.

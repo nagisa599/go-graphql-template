@@ -2,6 +2,12 @@
 
 package graphql_model
 
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
 type Mutation struct {
 }
 
@@ -10,7 +16,17 @@ type NewTodo struct {
 	UserID string `json:"userId"`
 }
 
+type NewUser struct {
+	Name     string `json:"name"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
 type Query struct {
+}
+
+type ResponseStatus struct {
+	Status StatusResult `json:"status"`
 }
 
 type Todo struct {
@@ -25,4 +41,45 @@ type User struct {
 	Email    string  `json:"email"`
 	Password string  `json:"password"`
 	Todos    []*Todo `json:"todos"`
+}
+
+type StatusResult string
+
+const (
+	StatusResultSuccess StatusResult = "SUCCESS"
+	StatusResultFailure StatusResult = "FAILURE"
+)
+
+var AllStatusResult = []StatusResult{
+	StatusResultSuccess,
+	StatusResultFailure,
+}
+
+func (e StatusResult) IsValid() bool {
+	switch e {
+	case StatusResultSuccess, StatusResultFailure:
+		return true
+	}
+	return false
+}
+
+func (e StatusResult) String() string {
+	return string(e)
+}
+
+func (e *StatusResult) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = StatusResult(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid StatusResult", str)
+	}
+	return nil
+}
+
+func (e StatusResult) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }
