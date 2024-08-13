@@ -11,6 +11,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/nagisa599/go-graphql-template/graphql"
 	"github.com/nagisa599/go-graphql-template/graphql/resolvers"
+	"github.com/nagisa599/go-graphql-template/internal/domain/repository"
 	"github.com/nagisa599/go-graphql-template/internal/handler"
 	"github.com/nagisa599/go-graphql-template/internal/usecase"
 	"github.com/rs/cors"
@@ -27,7 +28,9 @@ func Router() {
 	databaseHandler := NewDatabaseHandler()
     
 
-	userHandler := handler.NewUserHandler(usecase.NewUserUsecase())
+	userHandler := handler.NewUserHandler(usecase.NewUserUsecase(
+		repository.NewUserRepository(databaseHandler),
+	))
 	srv := graphql_handler.NewDefaultServer(
 		graphql.NewExecutableSchema(
 			graphql.Config{
