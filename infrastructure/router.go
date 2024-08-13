@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"log" // Standard log package
+	"log/slog"
 	"net/http"
 	"os"
 
@@ -14,6 +15,7 @@ import (
 	"github.com/nagisa599/go-graphql-template/internal/domain/repository"
 	"github.com/nagisa599/go-graphql-template/internal/handler"
 	"github.com/nagisa599/go-graphql-template/internal/usecase"
+	"github.com/nagisa599/go-graphql-template/middleware"
 	"github.com/rs/cors"
 	"github.com/vektah/gqlparser/v2/gqlerror"
 	"gorm.io/gorm"
@@ -39,6 +41,10 @@ func Router() {
 		),
 	)
 	srv.SetErrorPresenter(handleError)
+  // TODO: JWTからuser_idを取得するmiddlewareを実行
+	srv.AroundOperations(middleware.JwtAuthenticateMiddleware)
+	// ログを出力するmiddlewareを実行
+	srv.AroundOperations(middleware.LoggerMiddleware)
 
 	// CORS settings
 	c := cors.New(cors.Options{
@@ -64,7 +70,8 @@ func Router() {
 }
 
 func handleError(ctx context.Context, err error) *gqlerror.Error {
-	log.Printf("Error: %v", err)
+	slog.ErrorContext(ctx, err.Error())
+	
 	if os.Getenv("ENV") == "development" {
 		// Return detailed error in development environment
 		return gqlerror.Errorf(err.Error())
