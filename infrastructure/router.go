@@ -41,11 +41,13 @@ func Router() {
 		),
 	)
 	srv.SetErrorPresenter(handleError)
-  // TODO: JWTからuser_idを取得するmiddlewareを実行
-	srv.AroundOperations(middleware.JwtAuthenticateMiddleware)
-	// ログを出力するmiddlewareを実行
-	srv.AroundOperations(middleware.LoggerMiddleware)
+  	// TODO: JWTからuser_idを取得するmiddlewareを実行
+   	srv.AroundOperations(middleware.JwtAuthenticateMiddleware)
 
+	// ログを出力するmiddlewareを実行
+	if os.Getenv("ENV") == "development" {
+		srv.AroundOperations(middleware.LoggerMiddleware)
+	}
 	// CORS settings
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"}, // TODO: Change this for production
