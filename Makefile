@@ -7,8 +7,8 @@ bl-local:
 up-local:
 	cd ./build && docker compose up
 
-backend:
+inBackend:
 	docker exec -it grahql-backend bash
 
-db: 
+InDb: 
 	docker exec -it mysql-db bash
