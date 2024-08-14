@@ -23,10 +23,14 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input graphql_model.N
 
 // GetAllUsers is the resolver for the getAllUsers field.
 func (r *queryResolver) GetAllUsers(ctx context.Context) ([]*graphql_model.User, error) {
-	panic(fmt.Errorf("not implemented: GetAllUsers - getAllUsers"))
+	response, err := r.UserHandler.GetAllUsers(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return response, nil
 }
 
-// Todos is the resolver for the todos field.
+// Todos is the cv resolver for the todos field.
 func (r *userResolver) Todos(ctx context.Context, obj *graphql_model.User) ([]*graphql_model.Todo, error) {
 	panic(fmt.Errorf("not implemented: Todos - todos"))
 }
